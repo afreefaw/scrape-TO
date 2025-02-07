@@ -35,39 +35,18 @@ class Database:
         try:
             c = conn.cursor()
             
-            # First check for duplicates
-            item_numbers = [item['item_number'] for item in items]
-            c.execute('SELECT item_number FROM agenda_items WHERE item_number IN ({})'.format(
-                ','.join('?' * len(item_numbers))), item_numbers)
-            existing_items = {row[0] for row in c.fetchall()}
-            
-            new_items = [item for item in items if item['item_number'] not in existing_items]
-            update_items = [item for item in items if item['item_number'] in existing_items]
-            
-            # Insert new items
-            if new_items:
-                c.executemany('''INSERT INTO agenda_items
-                                (item_number, link, title, committee, date)
-                                VALUES (?, ?, ?, ?, ?)''',
-                             [(item['item_number'],
-                               item['link'],
-                               item['title'],
-                               item['committee'],
-                               item['date']) for item in new_items])
-            
-            # Update existing items
-            if update_items:
-                c.executemany('''UPDATE agenda_items 
-                                SET link = ?, title = ?, committee = ?, date = ?
-                                WHERE item_number = ?''',
-                             [(item['link'],
-                               item['title'],
-                               item['committee'],
-                               item['date'],
-                               item['item_number']) for item in update_items])
+            # Use INSERT OR REPLACE to handle duplicates automatically
+            c.executemany('''INSERT OR REPLACE INTO agenda_items
+                            (item_number, link, title, committee, date)
+                            VALUES (?, ?, ?, ?, ?)''',
+                         [(item['item_number'],
+                           item['link'],
+                           item['title'],
+                           item['committee'],
+                           item['date']) for item in items])
             
             conn.commit()
-            logging.info(f"Database update: {len(new_items)} new items, {len(update_items)} duplicates")
+            logging.info(f"Database update: saved {len(items)} items")
         except Exception as e:
             logging.error(f"Database save error: {e}")
             raise

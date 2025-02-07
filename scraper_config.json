@@ -1,6 +1,6 @@
 {
   "start_page": 1,
-  "end_page": 3,
+  "end_page": 9999999,
   "rows_per_page": 100,
   "pages_per_checkpoint": 20,
   "headless": true
