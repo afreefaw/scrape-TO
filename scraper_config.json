@@ -1,0 +1,7 @@
+{
+  "start_page": 1,
+  "end_page": 10,
+  "rows_per_page": 100,
+  "pages_per_checkpoint": 20,
+  "headless": false
+}
