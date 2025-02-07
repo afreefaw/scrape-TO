@@ -41,6 +41,12 @@ logs/
 *.db
 *.sqlite3
 scraping_progress.json
+details_progress.json
+download_progress.json
+filtered_items.json
+
+# Configuration files
+*_config.json
 
 # Environment variables
 scripts/env.sh
