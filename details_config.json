@@ -1,0 +1,10 @@
+{
+    "filter": {
+        "year": "2024",
+        "code": "EX",
+        "enabled": true
+    },
+    "extract_file": "filtered_items.json",
+    "progress_file": "details_progress.json",
+    "batch_size": 50
+}

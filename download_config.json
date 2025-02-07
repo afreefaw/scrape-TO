@@ -1,0 +1,6 @@
+{
+    "db_file": "agenda_details.db",
+    "download_dir": "downloads",
+    "progress_file": "download_progress.json",
+    "batch_size": 20
+}
